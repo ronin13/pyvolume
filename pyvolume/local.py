@@ -1,27 +1,37 @@
-import abc
-from pyvolume.fs import Filesystem
+# -*- coding: utf-8 -*-
+""" Provides EphemeralFileSystem."""
+from __future__ import unicode_literals
 import os
 import tempfile
 import os.path
 import shutil
-import plumbum
-from plumbum.cmd import mount, umount
+from plumbum.cmd import sudo,mount, umount
+from plumbum import ProcessExecutionError
+import logging
 
-class LocalFileSystem(Filesystem):
+log = logging.getLogger(__name__)
 
-    def __init__(self, base):
-        self.base = base
-        self.mount_point = "/mnt"
-        self.mount_options = " -o bind,rw "
+NOT_MOUNTED='<Not Mounted>'
+
+class EphemeralFileSystem(object):
+    """
+        Simple docker volume driver which creates a temporary directory
+        and then provides it to Docker by mounting it on /mnt.
+        Written to test Docker Volume API.
+    """
+    def __init__(self, remote_prefix):
+        self.base = tempfile.mkdtemp()
+        log.info("Using {0} as the base".format(self.base))
+        self.mount_point = remote_prefix
 
         self.vol_dict = {}
 
-    def create(self, volname):
-        path = os.path.normpath(self.base, volname)
+    def create(self, volname, options):
+        path = os.path.join(self.base, volname)
         log.info('Creating directory ' + path)
         os.mkdir(path)
 
-        rpath = os.path.normpath(self.mount_point, volname)
+        rpath = os.path.join(self.mount_point, volname)
         os.mkdir(rpath)
 
         self.vol_dict[volname] = {'Local': path, 'Remote': rpath}
@@ -30,23 +40,45 @@ class LocalFileSystem(Filesystem):
         return os.listdir(self.base)
 
     def path(self, volname):
+        if self.vol_dict[volname]['Remote'] == NOT_MOUNTED:
+            log.error('Volume {0} is not mounted'.format(volname))
+            return None
+
         return self.vol_dict[volname]['Remote']
 
     def remove(self, volname):
         local_path = self.vol_dict[volname]['Local']
         remote_path = self.vol_dict[volname]['Remote']
-        self.umount(remote_path)
-        log.info('Removing path ' + local_path)
-        # shutil.rmtree(volname)
+        try:
+            self.umount(volname)
+        except ProcessExecutionError as e:
+            if (e.retcode != 1):
+                raise
+        log.info('Removing remote path ' + remote_path)
+        if (os.path.exists(remote_path)):
+            os.rmdir(remote_path)
+
+        log.info('Removing local path ' + local_path)
+        if (os.path.exists(local_path)):
+            shutil.rmtree(local_path)
 
     def mount(self, volname):
         local_path = self.vol_dict[volname]['Local']
         remote_path = self.vol_dict[volname]['Remote']
-        mount([self.mount_options, local_path, remote_path])
+        mount_cmd = sudo[mount["-o", "bind,rw", local_path, remote_path]]
+        mount_cmd()
         return remote_path
 
     def umount(self, volname):
         remote_path = self.vol_dict[volname]['Remote']
-        umount(remote_path)
+        umount_cmd = sudo[umount[remote_path]]
+        umount_cmd()
+        self.vol_dict[volname]['Remote'] = NOT_MOUNTED
 
+    def cleanup(self):
+        for volume in self.vol_dict:
+            self.remove(volume)
+        shutil.rmtree(self.base)
 
+    def scope(self):
+        return "local"

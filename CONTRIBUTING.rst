@@ -56,7 +56,7 @@ If you are proposing a feature:
 
 Get Started!
 ------------
-
+[ Check README.rst for details on testing and development.]
 Ready to contribute? Here's how to set up `pyvolume` for local development.
 
 1. Fork the `pyvolume` repo on GitHub.

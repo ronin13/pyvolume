@@ -2,7 +2,7 @@
 History
 =======
 
-0.1.0 (2016-11-05)
+0.1.0 (2016-11-06)
 ------------------
 
-* First release on PyPI.
+* First release of pyvolume.

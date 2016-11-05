@@ -9,13 +9,14 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [
-    # TODO: put package requirements here
-]
 
-test_requirements = [
-    # TODO: put package test requirements here
-]
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
+
+with open('requirements_dev.txt') as f:
+    test_requirements = f.read().splitlines()
+
 
 setup(
     name='pyvolume',
@@ -30,6 +31,11 @@ setup(
     ],
     package_dir={'pyvolume':
                  'pyvolume'},
+    entry_points={
+        'console_scripts': [
+            'pyvolume = pyvolume.manager:start'
+        ]
+    },
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
