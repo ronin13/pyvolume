@@ -2,6 +2,8 @@
 PyVolume
 ===============================
 
+[![Build Status](https://travis-ci.org/ronin13/pyvolume.svg?branch=master)](https://travis-ci.org/ronin13/pyvolume)
+
 Python Docker Volume driver.
 
 Supports pluggable implementations.
