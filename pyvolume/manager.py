@@ -8,7 +8,7 @@ Following Docker Volume endpoints are routed below:
     '/VolumeDriver.List'
     '/VolumeDriver.Path'
     '/VolumeDriver.Mount'
-    '/VolumeDriver.UnMount'
+    '/VolumeDriver.Unmount'
     '/VolumeDriver.Get'
     '/VolumeDriver.Capabilities'
 
@@ -182,11 +182,10 @@ def path_volume():
     return dispatch({"Mountpoint": mntpoint, "Err": ""})
 
 @app.route('/VolumeDriver.Unmount', methods=['POST'])
-@app.route('/VolumeDriver.UnMount', methods=['POST'])
 def unmount_volume():
-    """ Routes Docker Volume '/VolumeDriver.UnMount'.
+    """ Routes Docker Volume '/VolumeDriver.Unmount'.
 
-        Handles multiple UnMount requests for volume mounted multiple
+        Handles multiple Unmount requests for volume mounted multiple
         times by only unmounting the last time.
     """
     volm = app.config['volmer']

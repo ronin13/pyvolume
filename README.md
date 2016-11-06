@@ -14,7 +14,7 @@ Implements:
   *  '/VolumeDriver.List'
   *  '/VolumeDriver.Path'
   *  '/VolumeDriver.Mount'
-  *  '/VolumeDriver.UnMount'
+  *  '/VolumeDriver.Unmount'
   *  '/VolumeDriver.Get'
   *  '/VolumeDriver.Capabilities'
 

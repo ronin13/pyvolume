@@ -67,11 +67,11 @@ curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.Get
 
 curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.Mount |  jq '.Err' | grep -v '[a-z]'
 
-curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.UnMount |  jq '.Err' | grep -v '[a-z]'
+curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.Unmount |  jq '.Err' | grep -v '[a-z]'
 
 curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.Path |  jq '.Mountpoint' | grep  "/mnt/$volname"
 
-curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.UnMount |  jq '.Err' | grep -v '[a-z]'
+curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.Unmount |  jq '.Err' | grep -v '[a-z]'
 
 
 curl -X POST -s -d '{"Name": "'$volname'"}' http://0.0.0.0:1331/VolumeDriver.Path |  jq '.Err' | grep  'is not mounted'
