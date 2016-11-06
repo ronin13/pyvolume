@@ -60,7 +60,13 @@ Running
 
 After Installing, 
 
-1. Start the pyvolume server.
+1. Make sure the ssh keys are available through the ssh-agent.
+
+```
+ssh-add -l
+```
+
+2. Start the pyvolume server.
 
 ```
     $ /usr/local/bin/pyvolume
@@ -68,19 +74,19 @@ After Installing,
     
 ```
 
-2. Create a docker volume.
+3. Create a docker volume.
 
 ```
     docker volume create -d pyvolume --name myvolume2 -o 'remote_path=server:/home/user' -o 'ssh_config=/home/rprabhu/.ssh.bkp/config.server'
 ```
 
-3. Run docker as usual, providing the newly created volume name.
+4. Run docker as usual, providing the newly created volume name.
 
 ```
    docker run -it -v myvolume2:/data  busybox:latest sh
 ```
 
-4. PROFIT!
+5. PROFIT!
 
 Local Installation and Running
 -------
