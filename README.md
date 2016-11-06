@@ -8,21 +8,21 @@ Supports pluggable implementations.
 Uses Flask for routing.
 
 Implements:
-    '/Plugin.Activate'
-    '/VolumeDriver.Create'
-    '/VolumeDriver.Remove'
-    '/VolumeDriver.List'
-    '/VolumeDriver.Path'
-    '/VolumeDriver.Mount'
-    '/VolumeDriver.UnMount'
-    '/VolumeDriver.Get'
-    '/VolumeDriver.Capabilities'
+  *  '/Plugin.Activate'
+  *  '/VolumeDriver.Create'
+  *  '/VolumeDriver.Remove'
+  *  '/VolumeDriver.List'
+  *  '/VolumeDriver.Path'
+  *  '/VolumeDriver.Mount'
+  *  '/VolumeDriver.UnMount'
+  *  '/VolumeDriver.Get'
+  *  '/VolumeDriver.Capabilities'
 
-for Docker Volume 
+for Docker Volume. 
 
 and 
-    '/'
-    '/shutdown'
+  * '/'
+  *  '/shutdown'
 
 for management.
 
@@ -33,8 +33,10 @@ Installing
 1. Install the package. 
 
 ```
-    pip install -r requirements.txt --user
-    python2 setup.py install --prefix=/usr/local
+
+pip install -r requirements.txt --user
+python2 setup.py install --prefix=/usr/local
+
 ```
 
 After this pyvolume should be available as /usr/local/bin/pyvolume.
@@ -66,22 +68,23 @@ After Installing,
     
 ```
 
-1. Create a docker volume.
+2. Create a docker volume.
 
 ```
     docker volume create -d pyvolume --name myvolume2 -o 'remote_path=server:/home/user' -o 'ssh_config=/home/rprabhu/.ssh.bkp/config.server'
 ```
 
-2. Run docker as usual, providing the newly created volume name.
+3. Run docker as usual, providing the newly created volume name.
 
 ```
    docker run -it -v myvolume2:/data  busybox:latest sh
 ```
 
-3. PROFIT!
+4. PROFIT!
 
 Local Installation and Running
 -------
+
 1. Look above for dependencies.
 2. 
 
@@ -157,7 +160,6 @@ Testing
     py27: commands succeeded
     congratulations :)
 ```
-
 
 Credits
 ---------
