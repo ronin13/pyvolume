@@ -12,3 +12,4 @@ pytest==2.9.2
 flask
 plumbum
 argparse
+mock
