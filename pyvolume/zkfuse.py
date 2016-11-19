@@ -4,15 +4,16 @@
 from __future__ import unicode_literals
 import os
 import os.path
-try:
-    from plumbum.cmd import docker
-except ImportError:
-    log.warning("This can be ignored during testing or on travis")
 from plumbum import ProcessExecutionError
 from pyvolume.exceptions import NeedOptionsException
 import logging
 
 log = logging.getLogger(__name__)
+
+try:
+    from plumbum.cmd import docker
+except ImportError:
+    log.warning("This can be ignored during testing or on travis")
 
 DOCKER_IMAGE = "ronin/zkfuse:latest"
 CONTAINER_NAME = "zkfuse"
