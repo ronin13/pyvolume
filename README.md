@@ -30,6 +30,11 @@ for management.
 
 * Free software: MIT license
 
+### Current Implementations
+- Ephemeral FileSystem
+- SSHFS FileSystem
+- Zookeeper FileSystem
+
 Installing
 -----------
 1. Install the package. 

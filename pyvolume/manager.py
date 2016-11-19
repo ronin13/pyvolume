@@ -25,6 +25,7 @@ import argparse
 from flask import request
 from pyvolume.local import EphemeralFileSystem
 from pyvolume.sshfs import SSHFileSystem
+from pyvolume.zkfuse import ZKFileSystem
 
 app = Flask(__name__)
 HOST = '0.0.0.0'
@@ -65,6 +66,8 @@ class VolumeManager(object):
             self.driver = EphemeralFileSystem(prefix)
         elif (driver == 'sshfs'):
             self.driver = SSHFileSystem(prefix)
+        elif (driver == 'zookeeper'):
+            self.driver = ZKFileSystem(prefix)
 
         self.mount_mgr = {}
         self.driver_type = driver
