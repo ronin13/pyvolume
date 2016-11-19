@@ -4,7 +4,10 @@
 from __future__ import unicode_literals
 import os
 import os.path
-from plumbum.cmd import docker
+try:
+    from plumbum.cmd import docker
+except ImportError:
+    log.warning("This can be ignored during testing or on travis")
 from plumbum import ProcessExecutionError
 from pyvolume.exceptions import NeedOptionsException
 import logging
