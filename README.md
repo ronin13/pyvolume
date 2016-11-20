@@ -6,8 +6,7 @@ PyVolume
 
 Python Docker Volume driver.
 
-Supports pluggable implementations.
-Uses Flask for routing.
+Supports pluggable implementations, currently there are three written.
 
 Implements:
   *  '/Plugin.Activate'
@@ -20,7 +19,7 @@ Implements:
   *  '/VolumeDriver.Get'
   *  '/VolumeDriver.Capabilities'
 
-for Docker Volume. 
+for [Docker Volume](https://docs.docker.com/engine/extend/plugins_volume/). 
 
 and 
   * '/'
@@ -28,12 +27,17 @@ and
 
 for management.
 
-* Free software: MIT license
+The volume manager (common to all drivers) uses [Flask](http://flask.pocoo.org/) for routing and 
+handles multiple invocations of Mount and Unmount for same volume as per 
+docker specifications. It also passes options passed through API to the drivers.
+Cleanup is also handled on shutdown.
+
 
 ### Current Implementations
-- Ephemeral FileSystem
-- SSHFS FileSystem
-- Zookeeper FileSystem
+- [Ephemeral FileSystem](pyvolume/local.py)
+- [SSHFS FileSystem](pyvolume/sshfs.py)
+- [Zookeeper FileSystem](pyvolume/zkfuse.py)
+    - This uses [docker-zkfuse](ronin13/docker-zkfuse) for using [zkfuse](https://github.com/apache/zookeeper/tree/master/src/contrib/zkfuse) and mounts zkfuse from container to host through shared mounting of volume from host to container.
 
 Installing
 -----------
@@ -62,8 +66,25 @@ After this pyvolume should be available as /usr/local/bin/pyvolume.
 3. util-linux (for mount etc.)
 4. Python-related tools such as virtualenv.
 
-Running
+Usage
 -------
+
+#### Permissions
+
+- Make sure you have write permissions for base mount directory which is /mnt by default.
+    - If not, make sure to chown as the user you run pyvolume as.
+- For ZookeeperFileSystem, make sure the pyvolume's user can do docker run without sudo.
+    - If not, add the pyvolume's user to docker group.
+
+
+#### For SSH FileSystem
+
+Arguments for docker volume create:
+
+- remote_path: as host:directory (Required)
+- ssh_config: path to ssh config directory if it is not default.
+- sshfs_options: any options to pass to sshfs.
+
 
 After Installing, 
 
@@ -94,6 +115,46 @@ ssh-add -l
 ```
 
 5. PROFIT!
+
+
+#### For ZooKeeper FileSystem
+
+Arguments for docker volume create:
+
+- zookeeper_string - host:port (or a list of tuples) to running zookeeper instance. (Required)
+- docker_opt - any options to pass to docker.
+
+
+1. Start the pyvolume server.
+
+```
+    $ /usr/local/bin/pyvolume -t zookeeper
+    INFO:werkzeug: * Running on http://0.0.0.0:1331/ (Press CTRL+C to quit)
+    
+```
+
+3. Create a docker volume.
+
+```
+    docker volume create -d pyvolume --name zoo -o 'zookeeper_string=0.0.0.0:2181' -o 'docker_opt=--net=host'
+```
+
+This assumes that you have a local zookeeper running on host at 0.0.0.0:2181. 
+Since it is running on host, you need '--net=host' as well.
+
+Otherwise, if you have zookeeper running on $host:$port, following will do:
+
+```
+    docker volume create -d pyvolume --name zoo -o "zookeeper_string=$host:$port"
+```
+
+4. Run docker as usual, providing the newly created volume name.
+
+```
+   docker run -it -v zoo:/data  busybox:latest sh
+```
+
+and you can access the zookeeper znodes through /data/ after this.
 
 Local Installation and Running
 -------
@@ -173,6 +234,11 @@ Testing
     py27: commands succeeded
     congratulations :)
 ```
+
+License
+--------
+
+* Free software: MIT license
 
 Credits
 ---------
