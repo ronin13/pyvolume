@@ -26,10 +26,11 @@ class ZKFileSystem(object):
         different volumes.
     """
     def __init__(self, base, zkfuse_opt="-d"):
-        self.base = base
+        self.base = os.path.join(base, 'zkmount')
+        os.mkdir(self.base)
         self.zkfuse_options = zkfuse_opt
         self.vol_dict = {}
-        self.docker_opt = "run --name {0} --device /dev/fuse --cap-add SYS_ADMIN --rm ".format(CONTAINER_NAME)
+        self.docker_opt = "run --name {0} --device /dev/fuse --cap-add SYS_ADMIN -d ".format(CONTAINER_NAME)
 
     def create(self, volname, options):
         """ Creates the directories but does not mount it yet."""
@@ -48,7 +49,7 @@ class ZKFileSystem(object):
 
         cmdline = self.docker_opt + " -v {hostmount}:/zkmount:shared {dimage} /usr/bin/zkfuse \
                         {zkfuse_opt} -m /zkmount/{volname} -z {zkstring}".format(
-                        hostmount=local_path,
+                        hostmount=self.base,
                         zkfuse_opt=self.zkfuse_options,
                         zkstring=zkstring,
                         dimage=DOCKER_IMAGE,
@@ -125,6 +126,9 @@ class ZKFileSystem(object):
         cmdline = "stop " + CONTAINER_NAME
         umount_cmd = docker[cmdline.split()]
         umount_cmd()
+        cmdline = "rm -f " + CONTAINER_NAME
+        remove_cmd = docker[cmdline.split()]
+        remove_cmd()
         self.vol_dict[volname]['mounted'] = False
         return True
 
@@ -132,6 +136,7 @@ class ZKFileSystem(object):
         """ Unmounts and removes mount paths when shutting down."""
         for volume in self.vol_dict:
             self.remove(volume)
+        os.rmdir(self.base)
 
     def scope(self):
         """ Returns scope of this - global."""

@@ -57,7 +57,7 @@ class VolumeManager(object):
        7. scope
        8. cleanup
 
-    Currently, two drivers available are EphemeralFileSystem and SSHFileSystem.
+    Currently, drivers available are EphemeralFileSystem, SSHFileSystem and Zookeeper FileSystem
     """
 
 
@@ -281,10 +281,10 @@ def shutdown():
 
 parser = argparse.ArgumentParser(description='Arguments to volume router')
 
-parser.add_argument('-t', '--driver', default=DRIVER_TYPE, help='Type of driver to use', choices=['sshfs', 'ephemeral'])
+parser.add_argument('-t', '--driver', default=DRIVER_TYPE, help='Type of driver to use', choices=['sshfs', 'ephemeral', 'zookeeper'])
 parser.add_argument('-H', '--host', default=HOST, help='Host to listen on')
 parser.add_argument('-p', '--port', default=PORT, help='Port to listen on')
-parser.add_argument('-m', '--base', default=DEFAULT_BASE, help='Base directory to mount over')
+parser.add_argument('-m', '--base', default=DEFAULT_BASE, help='Base directory to mount over, default is ' + DEFAULT_BASE)
 
 def start():
     global PORT
