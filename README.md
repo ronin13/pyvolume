@@ -34,6 +34,8 @@ Cleanup is also handled on shutdown.
 
 
 ### Current Implementations
+![Zookeeper](http://hortonworks.com/wp-content/uploads/2016/03/zookeeper.png)
+
 - [Ephemeral FileSystem](pyvolume/local.py)
 - [SSHFS FileSystem](pyvolume/sshfs.py)
 - [Zookeeper FileSystem](pyvolume/zkfuse.py)
