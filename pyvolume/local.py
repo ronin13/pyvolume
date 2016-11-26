@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 """ Provides EphemeralFileSystem."""
 from __future__ import unicode_literals
+
+import logging
 import os
-import tempfile
 import os.path
 import shutil
-from plumbum.cmd import sudo, mount, umount
+import tempfile
+
 from plumbum import ProcessExecutionError
-import logging
+from plumbum.cmd import mount
+from plumbum.cmd import sudo
+from plumbum.cmd import umount
 
 log = logging.getLogger(__name__)
 

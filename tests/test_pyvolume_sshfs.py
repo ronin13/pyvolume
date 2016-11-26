@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 test_pyvolume_sshfs
 ----------------------------------
 
 Tests for `pyvolume` module for sshfs implementation.
 """
+import json
+import os
+import unittest
 
 import pytest
-import unittest
-import os
-
-import json
 from mock import patch
+
 import pyvolume.manager as manager
 
 # List of endpoints to be tested.

@@ -13,13 +13,14 @@ Following Docker Volume endpoints are routed below:
     '/VolumeDriver.Capabilities'
 
 """
-
 from __future__ import unicode_literals
-from flask import Flask
-from flask import request
-from flask import jsonify
-import logging
+
 import argparse
+import logging
+
+from flask import Flask
+from flask import jsonify
+from flask import request
 
 from pyvolume.local import EphemeralFileSystem
 from pyvolume.sshfs import SSHFileSystem

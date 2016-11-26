@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 """ Module providing SSHFileSystem implementation."""
-
 from __future__ import unicode_literals
+
+import logging
 import os
 import os.path
-from plumbum.cmd import sshfs, umount, sudo
+
 from plumbum import ProcessExecutionError
+from plumbum.cmd import sshfs
+from plumbum.cmd import sudo
+from plumbum.cmd import umount
+
 from pyvolume.exceptions import NeedOptionsException
-import logging
 
 log = logging.getLogger(__name__)
 

@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """ Module providing ZKFileSystem implementation."""
-
 from __future__ import unicode_literals
+
+import logging
 import os
 import os.path
+
 from plumbum import ProcessExecutionError
+
 from pyvolume.exceptions import NeedOptionsException
-import logging
 
 log = logging.getLogger(__name__)
 
