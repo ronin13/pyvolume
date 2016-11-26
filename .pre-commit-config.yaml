@@ -14,3 +14,15 @@
     -   id: end-of-file-fixer
     -   id: fix-encoding-pragma
     -   id: requirements-txt-fixer
+
+-   repo: https://github.com/asottile/reorder_python_imports.git
+    sha: 3d86483455ab5bd06cc1069fdd5ac57be5463f10
+    hooks:
+    -   id: reorder-python-imports
+        language_version: python2.7
+
+-   repo: https://github.com/pre-commit/pre-commit.git
+    sha: 8dba3281d5051060755459dcf88e28fc26c27526
+    hooks:
+    -   id: validate_config
+    -   id: validate_manifest
