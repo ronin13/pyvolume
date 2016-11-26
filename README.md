@@ -22,16 +22,16 @@ Implements:
   *  '/VolumeDriver.Get'
   *  '/VolumeDriver.Capabilities'
 
-for [Docker Volume](https://docs.docker.com/engine/extend/plugins_volume/). 
+for [Docker Volume](https://docs.docker.com/engine/extend/plugins_volume/).
 
-and 
+and
   * '/'
   *  '/shutdown'
 
 for management.
 
-The volume manager (common to all drivers) uses [Flask](http://flask.pocoo.org/) for routing and 
-handles multiple invocations of Mount and Unmount for same volume as per 
+The volume manager (common to all drivers) uses [Flask](http://flask.pocoo.org/) for routing and
+handles multiple invocations of Mount and Unmount for same volume as per
 docker specifications. It also passes options passed through API to the drivers.
 Cleanup is also handled on shutdown.
 
@@ -47,7 +47,7 @@ Cleanup is also handled on shutdown.
 
 Installing
 -----------
-1. Install the package. 
+1. Install the package.
 
 ```
 
@@ -92,7 +92,7 @@ Arguments for docker volume create:
 - sshfs_options: any options to pass to sshfs.
 
 
-After Installing, 
+After Installing,
 
 1. Make sure the ssh keys are available through the ssh-agent.
 
@@ -105,7 +105,7 @@ ssh-add -l
 ```
     $ /usr/local/bin/pyvolume
     INFO:werkzeug: * Running on http://0.0.0.0:1331/ (Press CTRL+C to quit)
-    
+
 ```
 
 3. Create a docker volume.
@@ -136,7 +136,7 @@ Arguments for docker volume create:
 ```
     $ /usr/local/bin/pyvolume -t zookeeper
     INFO:werkzeug: * Running on http://0.0.0.0:1331/ (Press CTRL+C to quit)
-    
+
 ```
 
 3. Create a docker volume.
@@ -145,7 +145,7 @@ Arguments for docker volume create:
     docker volume create -d pyvolume --name zoo -o 'zookeeper_string=0.0.0.0:2181' -o 'docker_opt=--net=host'
 ```
 
-This assumes that you have a local zookeeper running on host at 0.0.0.0:2181. 
+This assumes that you have a local zookeeper running on host at 0.0.0.0:2181.
 Since it is running on host, you need '--net=host' as well.
 
 Otherwise, if you have zookeeper running on $host:$port, following will do:
@@ -166,7 +166,7 @@ Local Installation and Running
 -------
 
 1. Look above for dependencies.
-2. 
+2.
 
 ```
     $ make devenv
@@ -253,4 +253,3 @@ This package was created with Cookiecutter_ and the 'audreyr/cookiecutter-pypack
 
 * Cookiecutter: https://github.com/audreyr/cookiecutter
 * audreyr/cookiecutter-pypackage: https://github.com/audreyr/cookiecutter-pypackage
-

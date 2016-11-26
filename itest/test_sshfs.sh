@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 set -ue
 vpid=$$
@@ -30,9 +30,9 @@ finish() {
     set -e
 }
 
-trap finish EXIT 
+trap finish EXIT
 
-python2 setup.py install 
+python2 setup.py install
 
 rm /tmp/flask.log || true
 python2 ./venv/bin/pyvolume 2>&1 &>/tmp/flask.log &

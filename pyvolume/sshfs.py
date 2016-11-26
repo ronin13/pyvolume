@@ -11,6 +11,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
+
 class SSHFileSystem(object):
     """
         Mounts an external directory pointed by `remote_path`
@@ -18,6 +19,7 @@ class SSHFileSystem(object):
         to use as a volume.  Uses vol_dict to keep track of
         different volumes.
     """
+
     def __init__(self, base):
         self.base = base
         self.sshfs_options = ["-o", "reconnect,cache_timeout=60,allow_other,uid=1000,gid=1000,intr"]

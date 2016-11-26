@@ -5,13 +5,14 @@ import os
 import tempfile
 import os.path
 import shutil
-from plumbum.cmd import sudo,mount, umount
+from plumbum.cmd import sudo, mount, umount
 from plumbum import ProcessExecutionError
 import logging
 
 log = logging.getLogger(__name__)
 
-NOT_MOUNTED='<Not Mounted>'
+NOT_MOUNTED = '<Not Mounted>'
+
 
 class EphemeralFileSystem(object):
     """
@@ -19,6 +20,7 @@ class EphemeralFileSystem(object):
         and then provides it to Docker by mounting it on /mnt.
         Written to test Docker Volume API.
     """
+
     def __init__(self, remote_prefix):
         self.base = tempfile.mkdtemp()
         log.info("Using {0} as the base".format(self.base))

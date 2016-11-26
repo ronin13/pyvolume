@@ -18,6 +18,7 @@ except ImportError:
 DOCKER_IMAGE = "ronin/zkfuse:latest"
 CONTAINER_NAME = "zkfuse"
 
+
 class ZKFileSystem(object):
     """
         Mounts an external directory pointed by `remote_path`
@@ -25,6 +26,7 @@ class ZKFileSystem(object):
         to use as a volume.  Uses vol_dict to keep track of
         different volumes.
     """
+
     def __init__(self, base, zkfuse_opt="-d"):
         self.base = os.path.join(base, 'zkmount')
         os.mkdir(self.base)
@@ -49,16 +51,16 @@ class ZKFileSystem(object):
 
         cmdline = self.docker_opt + " -v {hostmount}:/zkmount:shared {dimage} /usr/bin/zkfuse \
                         {zkfuse_opt} -m /zkmount/{volname} -z {zkstring}".format(
-                        hostmount=self.base,
-                        zkfuse_opt=self.zkfuse_options,
-                        zkstring=zkstring,
-                        dimage=DOCKER_IMAGE,
-                        volname=volname,
-                        )
+            hostmount=self.base,
+            zkfuse_opt=self.zkfuse_options,
+            zkstring=zkstring,
+            dimage=DOCKER_IMAGE,
+            volname=volname,
+        )
 
         cmdline = cmdline.split()
 
-        self.vol_dict[volname] = {'Local': local_path,  'cmdline': cmdline, 'mounted': False}
+        self.vol_dict[volname] = {'Local': local_path, 'cmdline': cmdline, 'mounted': False}
 
         if 'pull_early' in options:
             cmdstring = "pull " + DOCKER_IMAGE
@@ -122,7 +124,6 @@ class ZKFileSystem(object):
     def umount(self, volname):
         if not self.mount_check(volname):
             return None
-        local_path = self.vol_dict[volname]['Local']
         cmdline = "stop " + CONTAINER_NAME
         umount_cmd = docker[cmdline.split()]
         umount_cmd()

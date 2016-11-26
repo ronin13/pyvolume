@@ -6,14 +6,14 @@ before_install:
   - sudo apt-get install -y sshfs
 
 language: python
-python: 
+python:
     - "2.7"
 
 env:
   - TOXENV=py27
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: 
+install:
     - pip install -U pip
     - pip install -U tox
     - pip install -r requirements_dev.txt

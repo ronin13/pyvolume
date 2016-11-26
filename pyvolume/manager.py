@@ -16,13 +16,11 @@ Following Docker Volume endpoints are routed below:
 
 from __future__ import unicode_literals
 from flask import Flask
-from flask import json
 from flask import request
 from flask import jsonify
 import logging
 import argparse
 
-from flask import request
 from pyvolume.local import EphemeralFileSystem
 from pyvolume.sshfs import SSHFileSystem
 from pyvolume.zkfuse import ZKFileSystem
@@ -39,6 +37,7 @@ log = logging.getLogger(__name__)
 
 class MountMgr(object):
     """ MountMgr is a helper class used during mounting/unmounting."""
+
     def __init__(self, counter, mntpoint):
         self.counter = counter
         self.mntpoint = mntpoint
@@ -60,7 +59,6 @@ class VolumeManager(object):
     Currently, drivers available are EphemeralFileSystem, SSHFileSystem and Zookeeper FileSystem
     """
 
-
     def __init__(self, driver, prefix):
         if (driver == 'ephemeral'):
             self.driver = EphemeralFileSystem(prefix)
@@ -79,7 +77,6 @@ class VolumeManager(object):
             self.mount_mgr[volume].mntpoint = None
 
         self.driver.cleanup()
-
 
 
 def dispatch(data):
@@ -121,6 +118,7 @@ def create_volume():
         return dispatch({"Err": "Failed to create the volume {0} : {1}".format(vol_name, str(e))})
 
     return dispatch({"Err": ""})
+
 
 @app.route('/')
 def index():
@@ -184,6 +182,7 @@ def path_volume():
 
     return dispatch({"Mountpoint": mntpoint, "Err": ""})
 
+
 @app.route('/VolumeDriver.Unmount', methods=['POST'])
 def unmount_volume():
     """ Routes Docker Volume '/VolumeDriver.Unmount'.
@@ -213,6 +212,7 @@ def unmount_volume():
 
     return dispatch({"Err": ""})
 
+
 @app.route('/VolumeDriver.Get', methods=['POST'])
 def get_volume():
     """ Routes Docker Volume '/VolumeDriver.Get'."""
@@ -228,12 +228,13 @@ def get_volume():
         return dispatch({"Mountpoint": "", "Err": "Volume {0} is not mounted".format(vol_name)})
 
     return dispatch({"Volume":
-                { "Name" : vol_name,
-                "Mountpoint": mntpoint,
-                "Status": {},
-                },
-            "Err": "",
-            })
+                     {"Name": vol_name,
+                      "Mountpoint": mntpoint,
+                      "Status": {},
+                      },
+                     "Err": "",
+                     })
+
 
 @app.route('/VolumeDriver.List', methods=['POST'])
 def list_volume():
@@ -247,16 +248,17 @@ def list_volume():
             if not mntpoint:
                 mntpoint = "<NOT-MOUNTED>"
             mnt_list += [{
-                            "Name": volume,
-                            "Mountpoint": mntpoint,
-                        }]
+                "Name": volume,
+                "Mountpoint": mntpoint,
+            }]
 
     except Exception as e:
         return dispatch({"Err": "Failed to list the volumes: {0}".format(str(e))})
 
     return dispatch({"Volumes": mnt_list,
-            "Err": "",
-            })
+                     "Err": "",
+                     })
+
 
 @app.route('/VolumeDriver.Capabilities', methods=['POST'])
 def capabilities_volume():
@@ -265,12 +267,14 @@ def capabilities_volume():
     scope = volm.driver.scope()
     return dispatch({"Capabilities": {"Scope": scope}})
 
+
 def shutdown_server():
     """ Utility method for shutting down the server."""
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
         raise RuntimeError('Not running with the Werkzeug Server')
     func()
+
 
 @app.route('/shutdown', methods=['POST'])
 def shutdown():
@@ -281,18 +285,22 @@ def shutdown():
 
 parser = argparse.ArgumentParser(description='Arguments to volume router')
 
-parser.add_argument('-t', '--driver', default=DRIVER_TYPE, help='Type of driver to use', choices=['sshfs', 'ephemeral', 'zookeeper'])
+parser.add_argument('-t', '--driver', default=DRIVER_TYPE,
+                    help='Type of driver to use',
+                    choices=['sshfs', 'ephemeral', 'zookeeper']
+                    )
 parser.add_argument('-H', '--host', default=HOST, help='Host to listen on')
 parser.add_argument('-p', '--port', default=PORT, help='Port to listen on')
 parser.add_argument('-m', '--base', default=DEFAULT_BASE, help='Base directory to mount over, default is ' + DEFAULT_BASE)
+
 
 def start():
     global PORT
     global HOST
 
     args = parser.parse_args()
-    PORT=args.port
-    HOST=args.host
+    PORT = args.port
+    HOST = args.host
     volmer = VolumeManager(args.driver, prefix=args.base)
     app.config['volmer'] = volmer
 
@@ -300,6 +308,7 @@ def start():
         app.run(host=args.host, port=args.port)
     finally:
         volmer.cleanup()
+
 
 if __name__ == '__main__':
     start()
