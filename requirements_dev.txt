@@ -3,7 +3,7 @@ bumpversion==0.5.3
 coverage==4.2
 cryptography==1.4
 flake8==2.6.0
-flask
+flask==0.11.1
 mock
 pip==8.1.2
 plumbum==1.6.2
