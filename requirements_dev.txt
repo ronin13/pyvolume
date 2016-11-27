@@ -9,7 +9,7 @@ pip==9.0.1
 plumbum==1.6.2
 pre-commit
 pytest==2.9.2
-PyYAML==3.11
+PyYAML==3.12
 Sphinx==1.4.8
 tox==2.3.1
 watchdog==0.8.3
