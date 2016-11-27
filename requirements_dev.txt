@@ -8,7 +8,7 @@ mock
 pip==9.0.1
 plumbum==1.6.2
 pre-commit
-pytest==2.9.2
+pytest==3.0.4
 PyYAML==3.12
 Sphinx==1.4.8
 tox==2.3.1
