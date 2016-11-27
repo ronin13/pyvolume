@@ -6,7 +6,7 @@ flake8==2.6.0
 flask
 mock
 pip==8.1.2
-plumbum
+plumbum==1.6.2
 pre-commit
 pytest==2.9.2
 PyYAML==3.11
