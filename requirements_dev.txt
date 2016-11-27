@@ -5,7 +5,7 @@ cryptography==1.4
 flake8==2.6.0
 flask==0.11.1
 mock
-pip==8.1.2
+pip==9.0.1
 plumbum==1.6.2
 pre-commit
 pytest==2.9.2
