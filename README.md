@@ -4,6 +4,8 @@ PyVolume
 
 [![Build Status](https://travis-ci.org/ronin13/pyvolume.svg?branch=master)](https://travis-ci.org/ronin13/pyvolume)
 [![Coverage Status](https://coveralls.io/repos/github/ronin13/pyvolume/badge.svg?branch=master)](https://coveralls.io/github/ronin13/pyvolume?branch=master)
+[![Updates](https://pyup.io/repos/github/ronin13/pyvolume/shield.svg)](https://pyup.io/repos/github/ronin13/pyvolume/)
+[![Python 3](https://pyup.io/repos/github/ronin13/pyvolume/python-3-shield.svg)](https://pyup.io/repos/github/ronin13/pyvolume/)
 
 ![python](images/python.png)
 ![docker](images/docker-whale.png)
