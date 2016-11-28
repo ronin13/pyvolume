@@ -47,7 +47,7 @@ Cleanup is also handled on shutdown.
 - [Ephemeral FileSystem](pyvolume/local.py)
 - [SSHFS FileSystem](pyvolume/sshfs.py)
 - [Zookeeper FileSystem](pyvolume/zkfuse.py)
-    - This uses [docker-zkfuse](ronin13/docker-zkfuse) for using [zkfuse](https://github.com/apache/zookeeper/tree/master/src/contrib/zkfuse) and mounts zkfuse from container to host through shared mounting of volume from host to container.
+    - This uses [docker-zkfuse](https://github.com/ronin13/docker-zkfuse) for using [zkfuse](https://github.com/apache/zookeeper/tree/master/src/contrib/zkfuse) and mounts zkfuse from container to host through shared mounting of volume from host to container.
 
 Installing
 -----------
