@@ -28,6 +28,15 @@ help:
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
+docs: ## generate Sphinx HTML documentation, including API docs
+	rm -f docs/pyvolume.rst
+	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ pyvolume
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html
+
+servedocs: docs ## compile the docs watching for changes
+	shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 clean-build: ## remove build artifacts
 	rm -fr build/
