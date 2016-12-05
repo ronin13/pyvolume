@@ -19,7 +19,7 @@ with open('requirements_dev.txt') as f:
 
 setup(
     name='pyvolume',
-    version='0.1.0',
+    version='0.1.1',
     description="Python Docker Volume driver",
     long_description=readme + '\n\n' + history,
     author="Raghavendra Prabhu",
