@@ -1,31 +1,29 @@
-
 sudo: required
-
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y sshfs
-
+- sudo apt-get -qq update
+- sudo apt-get install -y sshfs
 language: python
 python:
-    - "2.7"
-
+- '2.7'
 env:
-  - TOXENV=py27
-
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+- TOXENV=py27
 install:
-    - pip install -U pip coveralls
-    - pip install -U tox
-    - pip install -r requirements_dev.txt
-
-
-# command to run tests, e.g. python setup.py test
+- pip install -U pip coveralls
+- pip install -U tox
+- pip install -r requirements_dev.txt
 script: tox -e ${TOXENV}
-
 after_success:
-    - coveralls
-
+- coveralls
 cache:
-    directories:
-        - $HOME/.cache/pip
-        - $HOME/.pre-commit
+  directories:
+  - "$HOME/.cache/pip"
+  - "$HOME/.pre-commit"
+deploy:
+  provider: pypi
+  user: ronin
+  password:
+    secure: eTH6+/Aock4VjmxoPgNYmjAPn4z/LoPbK6FWNLjXQWeGAlMN/tu9Zlrjp3cna8/Qv2ywb86HBQszPZc9ETUnx5oQUw8wdlijsKF35zs54rRNmWw+/4dVP77dkmcIXdPdNLoUzXog977psIN8sOlu9JUJ5fNjJvFP21+xYYr/pPUzN4e8+un13SrTbjm7sZ6q/wnrDhK5v78qml8qF00mYT0BKSUFHA+XHNIMW06hVsrORcX8ph2sBGDLTBpmvkhzPV6lFbeaE+TO3jugw/Uvi6HWUw8mJdKd7mIQ3X0GZws4Zv7NBOZutna+PXcgvDjh+s526ok/u5NayYUsABks2DPKoRImE4n6gP0nT2VvOkPbD5kTp0h/wzEFwe/mzf6w6HGRLZwdRl/JnbJP/CPENs5P9oYMz3SZNjcMnOUL6CR8FwRHK3F7NsAU3nJeW3NXFWMSarNn/VibSmjbOPtJJCn6agIqWjoZqqhu/xTSuNHnOosAxZ6kCrlUJy6VG+yQoYljAGgoF7o7++xKKvwbN5xzgJb0+VaB7L0+QaCHQ9jTmPQctn8dlxrsCQbXzQw+mDn8YbIKA7VH1Amn50mHkIgP7erYw2LXpTb/Uo39umTqt6AK9+imSSbv/gHXJiGe1rP0sk/HqF6HUhFyW6E/jx/RgwRGJtrp34NcVFEfmtw=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: ronin13/pyvolume
