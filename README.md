@@ -2,6 +2,7 @@
 PyVolume
 ===============================
 
+[![PyPI version](https://badge.fury.io/py/pyvolume.svg)](https://badge.fury.io/py/pyvolume)
 [![Build Status](https://travis-ci.org/ronin13/pyvolume.svg?branch=master)](https://travis-ci.org/ronin13/pyvolume)
 [![Coverage Status](https://coveralls.io/repos/github/ronin13/pyvolume/badge.svg?branch=master)](https://coveralls.io/github/ronin13/pyvolume?branch=master)
 [![Updates](https://pyup.io/repos/github/ronin13/pyvolume/shield.svg)](https://pyup.io/repos/github/ronin13/pyvolume/)
