@@ -6,7 +6,6 @@ test_pyvolume_sshfs
 
 Tests for `pyvolume` module for sshfs implementation.
 """
-import json
 import os
 import unittest
 
@@ -14,6 +13,8 @@ import pytest
 from mock import patch
 
 import pyvolume.manager as manager
+from pyvolume.json_func import decode
+from pyvolume.json_func import encode
 
 # List of endpoints to be tested.
 E_IMPLEMENTS = '/Plugin.Activate'
@@ -44,31 +45,31 @@ class ManagerTestCase(unittest.TestCase):
 
     def test_get(self):
         rv = self.app.get(E_GET)
-        assert b'Docker volume driver listening on ' + manager.PORT in rv.data
+        assert b'Docker volume driver listening on ' + str.encode(manager.PORT) in rv.data
         self.assertEqual(rv.status_code, 200)
 
     def test_implements(self):
         rv = self.app.post(E_IMPLEMENTS)
-        self.assertEqual({"Implements": ["VolumeDriver"]}, json.loads(rv.data))
+        self.assertEqual({"Implements": ["VolumeDriver"]}, decode(rv.data))
         self.assertEqual(rv.status_code, 200)
 
     def test_create(self):
         with patch.object(os, 'mkdir', return_value=None):
-            rv = self.app.post(E_CREATE, data=json.dumps({
+            rv = self.app.post(E_CREATE, data=encode({
                 "Name": "TESTVOL",
                 "Opts": {
                     "remote_path": "server:/home/user",
                 },
             }), content_type='application/json')
-            self.assertEqual({"Err": ""}, json.loads(rv.data))
+            self.assertEqual({"Err": ""}, decode(rv.data))
             self.assertEqual(rv.status_code, 200)
 
-            rv = self.app.post(E_CREATE, data=json.dumps({
+            rv = self.app.post(E_CREATE, data=encode({
                 "Name": "TESTVOL",
                 "Opts": {},
             }), content_type='application/json')
             self.assertEqual({"Err": "Failed to create the volume TESTVOL : remote_path is a required option for sshfs"},
-                             json.loads(rv.data))
+                             decode(rv.data))
             self.assertEqual(rv.status_code, 400)
 
     def test_shutdown(self):
