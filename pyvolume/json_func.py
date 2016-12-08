@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 import json
 import sys
+
 
 def encode(ddict):
     if sys.version_info[0] >= 3:
