@@ -11,6 +11,6 @@ pre-commit==0.9.4
 pytest==3.0.6
 PyYAML==3.12
 Sphinx==1.5.1
-tox==2.5.0
+tox==2.6.0
 watchdog==0.8.3
 wheel==0.29.0
