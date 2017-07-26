@@ -1,7 +1,7 @@
 argparse==1.4.0
 bumpversion==0.5.3
 coverage==4.3.4
-cryptography==1.7.1
+cryptography==2.0.1
 flake8==3.3.0
 flask==0.12
 mock==2.0.0
