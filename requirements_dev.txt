@@ -10,7 +10,7 @@ plumbum==1.6.3
 pre-commit==0.13.3
 pytest==3.0.6
 PyYAML==3.12
-Sphinx==1.5.3
+Sphinx==1.7.3
 tox==2.6.0
 watchdog==0.8.3
 wheel==0.29.0
