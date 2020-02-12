@@ -4,6 +4,7 @@
 """
 from __future__ import print_function
 
+from __future__ import absolute_import
 import base64
 import json
 import os
@@ -16,7 +17,7 @@ from cryptography.hazmat.primitives.serialization import load_pem_public_key
 
 
 try:
-    from urllib import urlopen
+    from six.moves.urllib.request import urlopen
 except:
     from urllib.request import urlopen
 
