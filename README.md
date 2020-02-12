@@ -4,6 +4,7 @@
 PyVolume
 ===============================
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Documentation Status](https://readthedocs.org/projects/pyvolume/badge/?version=latest)](http://pyvolume.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/pyvolume.svg)](https://badge.fury.io/py/pyvolume)
 [![Build Status](https://travis-ci.org/ronin13/pyvolume.svg?branch=master)](https://travis-ci.org/ronin13/pyvolume)
