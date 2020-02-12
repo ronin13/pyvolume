@@ -63,7 +63,7 @@ itest: ## Integration test
 	bash itest/test_sshfs.sh
 
 test: ## run tests quickly with the default Python
-	tox2 -e py27
+	tox -e py37
 
 test-all:
 	test
