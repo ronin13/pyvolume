@@ -31,41 +31,50 @@ class ZKFileSystem(object):
     """
 
     def __init__(self, base, zkfuse_opt="-d"):
-        self.base = os.path.join(base, 'zkmount')
+        self.base = os.path.join(base, "zkmount")
         os.mkdir(self.base)
         self.zkfuse_options = zkfuse_opt
         self.vol_dict = {}
-        self.docker_opt = "run --name {0} --device /dev/fuse --cap-add SYS_ADMIN -d ".format(CONTAINER_NAME)
+        self.docker_opt = "run --name {0} --device /dev/fuse --cap-add SYS_ADMIN -d ".format(
+            CONTAINER_NAME
+        )
 
     def create(self, volname, options):
         """ Creates the directories but does not mount it yet."""
-        if 'zookeeper_string' not in options:
-            raise NeedOptionsException('zookeeper_string needed')
+        if "zookeeper_string" not in options:
+            raise NeedOptionsException("zookeeper_string needed")
 
-        zkstring = options['zookeeper_string']
+        zkstring = options["zookeeper_string"]
         local_path = os.path.join(self.base, volname)
 
-        log.info('Creating directory ' + local_path)
+        log.info("Creating directory " + local_path)
         os.mkdir(local_path)
 
-        if 'docker_opt' in options:
+        if "docker_opt" in options:
             # Need to provide "--net=host here if zookeeper is running locally"
-            self.docker_opt += options['docker_opt']
+            self.docker_opt += options["docker_opt"]
 
-        cmdline = self.docker_opt + " -v {hostmount}:/zkmount:shared {dimage} /usr/bin/zkfuse \
+        cmdline = (
+            self.docker_opt
+            + " -v {hostmount}:/zkmount:shared {dimage} /usr/bin/zkfuse \
                         {zkfuse_opt} -m /zkmount/{volname} -z {zkstring}".format(
-            hostmount=self.base,
-            zkfuse_opt=self.zkfuse_options,
-            zkstring=zkstring,
-            dimage=DOCKER_IMAGE,
-            volname=volname,
+                hostmount=self.base,
+                zkfuse_opt=self.zkfuse_options,
+                zkstring=zkstring,
+                dimage=DOCKER_IMAGE,
+                volname=volname,
+            )
         )
 
         cmdline = cmdline.split()
 
-        self.vol_dict[volname] = {'Local': local_path, 'cmdline': cmdline, 'mounted': False}
+        self.vol_dict[volname] = {
+            "Local": local_path,
+            "cmdline": cmdline,
+            "mounted": False,
+        }
 
-        if 'pull_early' in options:
+        if "pull_early" in options:
             cmdstring = "pull " + DOCKER_IMAGE
             cmd = docker[cmdstring.split()]
             cmd()
@@ -81,10 +90,10 @@ class ZKFileSystem(object):
         """Check if the volume is already mounted.
         If mounted, return its path.
         """
-        if not self.vol_dict[volname]['mounted']:
-            log.error('Volume {0} is not mounted'.format(volname))
+        if not self.vol_dict[volname]["mounted"]:
+            log.error("Volume {0} is not mounted".format(volname))
             return None
-        return self.vol_dict[volname]['Local']
+        return self.vol_dict[volname]["Local"]
 
     def path(self, volname):
         """Check if the volume is already mounted.
@@ -93,7 +102,7 @@ class ZKFileSystem(object):
         if not self.mount_check(volname):
             return None
 
-        return self.vol_dict[volname]['Local']
+        return self.vol_dict[volname]["Local"]
 
     def remove(self, volname):
         """
@@ -102,14 +111,14 @@ class ZKFileSystem(object):
             if already unmounted.
             After which, it removes the mounted directory.
         """
-        local_path = self.vol_dict[volname]['Local']
+        local_path = self.vol_dict[volname]["Local"]
         try:
             self.umount(volname)
         except ProcessExecutionError as e:
-            if (e.retcode != 1):
+            if e.retcode != 1:
                 raise
-        log.info('Removing local path ' + local_path)
-        if (os.path.exists(local_path)):
+        log.info("Removing local path " + local_path)
+        if os.path.exists(local_path):
             os.rmdir(local_path)
         return True
 
@@ -118,11 +127,11 @@ class ZKFileSystem(object):
         check = self.mount_check(volname)
         if check:
             return check
-        cmdline = self.vol_dict[volname]['cmdline']
+        cmdline = self.vol_dict[volname]["cmdline"]
         mount_cmd = docker[cmdline]
         mount_cmd()
-        self.vol_dict[volname]['mounted'] = True
-        return self.vol_dict[volname]['Local']
+        self.vol_dict[volname]["mounted"] = True
+        return self.vol_dict[volname]["Local"]
 
     def umount(self, volname):
         if not self.mount_check(volname):
@@ -133,7 +142,7 @@ class ZKFileSystem(object):
         cmdline = "rm -f " + CONTAINER_NAME
         remove_cmd = docker[cmdline.split()]
         remove_cmd()
-        self.vol_dict[volname]['mounted'] = False
+        self.vol_dict[volname]["mounted"] = False
         return True
 
     def cleanup(self):

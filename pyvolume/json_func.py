@@ -10,11 +10,11 @@ def encode(ddict):
     if sys.version_info[0] >= 3:
         return json.dumps(ddict)
     else:
-        return json.dumps(ddict).encode('utf-8')
+        return json.dumps(ddict).encode("utf-8")
 
 
 def decode(sstr):
     if sys.version_info[0] >= 3:
         return json.loads(sstr.decode())
     else:
-        return json.loads(sstr.decode('utf-8'))
+        return json.loads(sstr.decode("utf-8"))

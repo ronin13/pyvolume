@@ -16,7 +16,7 @@ from plumbum.cmd import umount
 
 log = logging.getLogger(__name__)
 
-NOT_MOUNTED = '<Not Mounted>'
+NOT_MOUNTED = "<Not Mounted>"
 
 
 class EphemeralFileSystem(object):
@@ -35,52 +35,52 @@ class EphemeralFileSystem(object):
 
     def create(self, volname, options):
         path = os.path.join(self.base, volname)
-        log.info('Creating directory ' + path)
+        log.info("Creating directory " + path)
         os.mkdir(path)
 
         rpath = os.path.join(self.mount_point, volname)
         os.mkdir(rpath)
 
-        self.vol_dict[volname] = {'Local': path, 'Remote': rpath}
+        self.vol_dict[volname] = {"Local": path, "Remote": rpath}
 
     def list(self):
         return os.listdir(self.base)
 
     def path(self, volname):
-        if self.vol_dict[volname]['Remote'] == NOT_MOUNTED:
-            log.error('Volume {0} is not mounted'.format(volname))
+        if self.vol_dict[volname]["Remote"] == NOT_MOUNTED:
+            log.error("Volume {0} is not mounted".format(volname))
             return None
 
-        return self.vol_dict[volname]['Remote']
+        return self.vol_dict[volname]["Remote"]
 
     def remove(self, volname):
-        local_path = self.vol_dict[volname]['Local']
-        remote_path = self.vol_dict[volname]['Remote']
+        local_path = self.vol_dict[volname]["Local"]
+        remote_path = self.vol_dict[volname]["Remote"]
         try:
             self.umount(volname)
         except ProcessExecutionError as e:
-            if (e.retcode != 1):
+            if e.retcode != 1:
                 raise
-        log.info('Removing remote path ' + remote_path)
-        if (os.path.exists(remote_path)):
+        log.info("Removing remote path " + remote_path)
+        if os.path.exists(remote_path):
             os.rmdir(remote_path)
 
-        log.info('Removing local path ' + local_path)
-        if (os.path.exists(local_path)):
+        log.info("Removing local path " + local_path)
+        if os.path.exists(local_path):
             shutil.rmtree(local_path)
 
     def mount(self, volname):
-        local_path = self.vol_dict[volname]['Local']
-        remote_path = self.vol_dict[volname]['Remote']
+        local_path = self.vol_dict[volname]["Local"]
+        remote_path = self.vol_dict[volname]["Remote"]
         mount_cmd = sudo[mount["-o", "bind,rw", local_path, remote_path]]
         mount_cmd()
         return remote_path
 
     def umount(self, volname):
-        remote_path = self.vol_dict[volname]['Remote']
+        remote_path = self.vol_dict[volname]["Remote"]
         umount_cmd = sudo[umount[remote_path]]
         umount_cmd()
-        self.vol_dict[volname]['Remote'] = NOT_MOUNTED
+        self.vol_dict[volname]["Remote"] = NOT_MOUNTED
 
     def cleanup(self):
         for volume in self.vol_dict:
