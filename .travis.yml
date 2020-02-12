@@ -4,9 +4,9 @@ before_install:
 - sudo apt-get install -y sshfs
 language: python
 python:
-- '2.7'
+- '3.7'
 env:
-- TOXENV=py27
+- TOXENV=py37
 install:
 - pip install -U pip coveralls
 - pip install -U tox
