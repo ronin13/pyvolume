@@ -7,7 +7,7 @@ flask==1.0
 mock==4.0.1
 pip==9.0.1
 plumbum==1.6.3
-pre-commit==0.13.3
+pre-commit==2.0.1
 pytest==5.3.5
 PyYAML==5.1
 Sphinx==2.4.1
