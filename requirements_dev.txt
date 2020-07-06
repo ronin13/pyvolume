@@ -9,7 +9,7 @@ pip==20.0.2
 plumbum==1.6.8
 pytest==5.3.5
 PyYAML==5.3
-Sphinx==2.4.1
+Sphinx==3.1.2
 tox==3.14.3
 wheel==0.34.2
 watchdog==0.10.2
