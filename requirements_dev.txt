@@ -1,7 +1,7 @@
 argparse==1.4.0
 bumpversion==0.5.3
 black==19.10b0
-coverage==5.0.3
+coverage==5.5
 cryptography==2.8
 flask==1.1.1
 mock==4.0.1
