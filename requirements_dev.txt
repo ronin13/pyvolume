@@ -7,7 +7,7 @@ flask==1.1.1
 mock==4.0.1
 pip==20.0.2
 plumbum==1.6.8
-pytest==5.3.5
+pytest==6.2.5
 PyYAML==5.3
 Sphinx==2.4.1
 tox==3.14.3
