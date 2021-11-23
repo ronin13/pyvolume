@@ -6,7 +6,7 @@ cryptography==2.8
 flask==1.1.1
 mock==4.0.1
 pip==20.0.2
-plumbum==1.6.8
+plumbum==1.7.1
 pytest==5.3.5
 PyYAML==5.3
 Sphinx==2.4.1
