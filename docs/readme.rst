@@ -269,10 +269,6 @@ This package was created with Cookiecutter\_ and the
    :target: https://travis-ci.org/ronin13/pyvolume
 .. |Coverage Status| image:: https://coveralls.io/repos/github/ronin13/pyvolume/badge.svg?branch=master
    :target: https://coveralls.io/github/ronin13/pyvolume?branch=master
-.. |Updates| image:: https://pyup.io/repos/github/ronin13/pyvolume/shield.svg
-   :target: https://pyup.io/repos/github/ronin13/pyvolume/
-.. |Python 3| image:: https://pyup.io/repos/github/ronin13/pyvolume/python-3-shield.svg
-   :target: https://pyup.io/repos/github/ronin13/pyvolume/
 .. |python| image:: images/python.png
 .. |docker| image:: images/docker-whale.png
 .. |Zookeeper| image:: https://www.dropbox.com/s/7vmgl4mo9qvlncp/zookeeper.png?dl=1
